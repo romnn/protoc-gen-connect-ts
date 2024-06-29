@@ -1,0 +1,25 @@
+{
+  "name": "@romnn/protoc-gen-connect-ts",
+  "version": "0.0.1",
+  "description": "Code generator for Connect",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/romnn/protoc-gen-connect-ts.git",
+    "directory": "/"
+  },
+  "bin": {
+    "protoc-gen-connect-ts": "bin/protoc-gen-connect-ts"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "clean": "rm -rf ./dist/cjs/*",
+    "build": "tsc --project tsconfig.json --module commonjs --outDir ./dist/cjs"
+  },
+  "dependencies": {
+    "@bufbuild/protobuf": "^1.10.0",
+    "@bufbuild/protoplugin": "^1.10.0"
+  }
+}
