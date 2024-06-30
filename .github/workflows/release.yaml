@@ -1,0 +1,27 @@
+name: release
+on:
+  push:
+    tags:
+      - "*"
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: query
+        uses: romnn/query-git-action@main
+      - uses: oven-sh/setup-bun@v1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 21.x
+          registry-url: https://registry.npmjs.org
+          always-auth: true
+      - run: >
+          npm version  --no-git-tag-version ${{ steps.query.outputs.semver_version }}
+
+      - run: bun install
+      - run: bun run build
+      - run: npm publish --verbose --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

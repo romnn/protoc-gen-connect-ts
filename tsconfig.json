@@ -17,9 +17,9 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
     "resolveJsonModule": true,
-    // "moduleResolution": "nodenext",
+    "moduleResolution": "node",
     // "module": "nodenext",
-    "skipLibCheck": true
-  },
-  "outDir": "./dist/cjs"
+    "skipLibCheck": true,
+    "outDir": "./dist/cjs"
+  }
 }

@@ -3,7 +3,7 @@ import { MethodIdempotency, MethodKind } from "@bufbuild/protobuf";
 import type { GeneratedFile, Schema } from "@bufbuild/protoplugin/ecmascript";
 import { localName } from "@bufbuild/protoplugin/ecmascript";
 import { createEcmaScriptPlugin } from "@bufbuild/protoplugin";
-import { version } from "./package.json";
+import { version } from "../package.json";
 
 export function generateJs(_: Schema) {
   throw new Error("generating JS is not supported, only ts");
@@ -31,6 +31,8 @@ function generateService(
 ) {
   const { MethodKind: rtMethodKind, MethodIdempotency: rtMethodIdempotency } =
     schema.runtime;
+  // console.log(rtMethodKind);
+  // console.log(rtMethodIdempotency);
   f.print(f.jsDoc(service));
   f.print(f.exportDecl("const", localName(service)), " = {");
   f.print("  typeName: ", f.string(service.typeName), ",");
@@ -64,9 +66,50 @@ function generateService(
   f.print("  }");
   f.print("} as const;");
   f.print();
+
+  f.print(`import {type HandlerContext} from "@connectrpc/connect"`);
+
+  // export interface
+  f.print(f.exportDecl("interface", localName(service) + "Impl"), "  {");
+  for (const method of service.methods) {
+    f.print();
+    f.print(f.jsDoc(method, "    "));
+    switch (method.methodKind) {
+      case MethodKind.Unary: {
+        // f.print("    ", localName(method), ": UnaryImpl<", method.input, method.output, ">;");
+        f.print("    ", localName(method), ": (request: ", method.input, ", context: HandlerContext) => Promise<", method.output, ">;");
+        break;
+      }
+      case MethodKind.ServerStreaming: {
+        f.print("    ", localName(method), ": (request: ", method.input, ", context: HandlerContext) => AsyncIterable<", method.output, ">;");
+        // f.print("    ", localName(method), ": ServerStreamingImpl<", method.input, method.output, ">;");
+        break;
+      }
+      case MethodKind.ClientStreaming: {
+        f.print("    ", localName(method), ": (request: AsyncIterable<", method.input, ">, context: HandlerContext) => Promise<", method.output, ">;");
+        // f.print("    ", localName(method), ": ClientStreamingImpl<", method.input, method.output, ">;");
+        break;
+      }
+      case MethodKind.BiDiStreaming: {
+        f.print("    ", localName(method), ": (request: AsyncIterable<", method.input, ">, context: HandlerContext) => AsyncIterable<", method.output, ">;");
+        // f.print("    ", localName(method), ": BiDiStreamingImpl<", method.input, method.output, ">;");
+        break;
+      }
+    };
+  }
+  f.print("}");
+  f.print();
 }
 
-export const protocGenConnectEs = createEcmaScriptPlugin({
+// v
+// BiDiStreamingImpl
+
+// enum MethodKindType {
+//   Unary = 0,
+//   Bidi = 0,
+// }
+
+export const protocGenConnectTs = createEcmaScriptPlugin({
   name: "protoc-gen-connect-ts",
   version: `v${String(version)}`,
   generateTs,

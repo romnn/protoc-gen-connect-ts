@@ -16,7 +16,7 @@
   },
   "scripts": {
     "clean": "rm -rf ./dist/cjs/*",
-    "build": "tsc --project tsconfig.json --module commonjs --outDir ./dist/cjs"
+    "build": "tsc --project tsconfig.json --module commonjs"
   },
   "dependencies": {
     "@bufbuild/protobuf": "^1.10.0",
