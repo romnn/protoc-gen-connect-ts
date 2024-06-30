@@ -5,8 +5,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - id: query
-        uses: romnn/query-git-action@main
       - uses: oven-sh/setup-bun@v1
       - uses: actions/setup-node@v4
         with:
@@ -19,8 +17,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - id: query
-        uses: romnn/query-git-action@main
       - uses: oven-sh/setup-bun@v1
       - uses: actions/setup-node@v4
         with:
@@ -28,6 +24,5 @@ jobs:
           registry-url: https://registry.npmjs.org
           always-auth: true
       - uses: arduino/setup-protoc@v3
-      - run: npm install -g @bufbuild/buf
       - run: bun install
       - run: ./test.sh
