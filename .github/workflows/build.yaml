@@ -27,5 +27,7 @@ jobs:
           node-version: 21.x
           registry-url: https://registry.npmjs.org
           always-auth: true
+      - uses: arduino/setup-protoc@v3
+      - run: npm install -g @bufbuild/buf
       - run: bun install
       - run: ./test.sh

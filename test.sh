@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set +aux
+set -e
 
 DIR=$(dirname "$0")
 
