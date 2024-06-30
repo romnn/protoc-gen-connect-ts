@@ -33,3 +33,11 @@ plugins:
     opt: target=ts,ts_nocheck=false
     out: gen/
 ```
+
+#### Development
+
+```
+bun install
+bun run build
+./test.sh
+```
