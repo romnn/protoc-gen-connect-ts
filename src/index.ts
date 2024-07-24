@@ -1,3 +1,4 @@
+import * as util from "util";
 import type { DescService } from "@bufbuild/protobuf";
 import { MethodIdempotency, MethodKind } from "@bufbuild/protobuf";
 import type { GeneratedFile, Schema } from "@bufbuild/protoplugin/ecmascript";
@@ -72,6 +73,7 @@ function generateService(
   // export interface
   f.print(f.exportDecl("interface", localName(service) + "Impl"), "  {");
   for (const method of service.methods) {
+    console.error(util.inspect(method.proto.options))
     f.print();
     f.print(f.jsDoc(method, "    "));
     switch (method.methodKind) {

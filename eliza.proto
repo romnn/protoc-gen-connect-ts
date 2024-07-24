@@ -1,6 +1,10 @@
 syntax = "proto3";
 
+import "google/protobuf/descriptor.proto";
+
 package connectrpc.eliza.v1;
+
+extend google.protobuf.MethodOptions { bool require_auth = 51234; }
 
 // ElizaService provides a way to talk to Eliza, a port of the DOCTOR script
 // for Joseph Weizenbaum's original ELIZA program. Created in the mid-1960s at
@@ -10,13 +14,21 @@ package connectrpc.eliza.v1;
 // distributions.
 service ElizaService {
   // SayUnary is a unary RPC.
-  rpc SayUnary(SayRequest) returns (SayResponse) {}
+  rpc SayUnary(SayRequest) returns (SayResponse) {
+    option (require_auth) = true;
+  }
   // SayServerStream is a server-side streaming RPC.
-  rpc SayServerStream(SayRequest) returns (stream SayResponse) {}
+  rpc SayServerStream(SayRequest) returns (stream SayResponse) {
+    option (require_auth) = true;
+  }
   // SayClientStream is a client-side streaming RPC.
-  rpc SayClientStream(stream SayRequest) returns (SayResponse) {}
+  rpc SayClientStream(stream SayRequest) returns (SayResponse) {
+    option (require_auth) = true;
+  }
   // SayBidiStream is a bidirectional streaming RPC.
-  rpc SayBidiStream(stream SayRequest) returns (stream SayResponse) {}
+  rpc SayBidiStream(stream SayRequest) returns (stream SayResponse) {
+    option (require_auth) = true;
+  }
 }
 
 // SayRequest is a single-sentence request.

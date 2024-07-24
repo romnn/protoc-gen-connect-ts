@@ -21,5 +21,8 @@
   "dependencies": {
     "@bufbuild/protobuf": "^1.10.0",
     "@bufbuild/protoplugin": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.9"
   }
 }
